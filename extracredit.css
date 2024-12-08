@@ -94,6 +94,7 @@ header {
     height: 220px; /* Adjust based
 
 .logo {
-    width: 100px;
+    max-width: 20%;
     height: auto;
 }
+
