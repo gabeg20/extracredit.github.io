@@ -1,0 +1,94 @@
+/*
+    Program name: style.css
+    Author: Gabriel Garcia
+    Date created: 9/18
+    Date last edited: 11/30
+    Version: 5.0
+    Description: Styles for Patient Registration Form for Health Connect Clinic.
+*/
+
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    background-color: #f0f8ff;
+    padding-top: 220px;    /* Equal to header height */
+    padding-bottom: 120px; /* Equal to footer height */
+}
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+td {
+    padding: 10px;
+    vertical-align: top;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="date"],
+input[type="tel"],
+select,
+textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+    margin-right: 5px;
+}
+
+button {
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: #2980b9;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #21618c;
+}
+
+.error-message {
+    color: red;
+    font-size: 0.9em;
+}
+
+#reviewSection {
+    background-color: #ecf0f1;
+    padding: 20px;
+    border-radius: 4px;
+}
+
+/* Fixed Header */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #f0f8ff;
+    z-index: 1000;
+    height: 220px; /* Adjust based
