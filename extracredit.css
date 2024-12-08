@@ -92,3 +92,9 @@ header {
     background-color: #f0f8ff;
     z-index: 1000;
     height: 220px; /* Adjust based
+
+.logo {
+    max-width: 100px; /* Adjust this value as needed */
+    height: auto; /* Maintains aspect ratio */
+    display: block;
+}
