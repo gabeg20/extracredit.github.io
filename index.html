@@ -12,95 +12,105 @@ It includes various input fields, checkboxes, radio buttons, and a health status
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Patient Registration Form</title>
-    <link href="style.css" rel="stylesheet">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Patient Registration Form - Extra Credit</title>
+    <link rel="stylesheet" href="extracredit.css" />
+    <!-- reCAPTCHA v3 -->
+    <script src="https://www.google.com/recaptcha/api.js?render=YOUR_RECAPTCHA_SITE_KEY"></script>
 </head>
 <body>
-
- <!-- Header -->
 <header>
     <div class="banner-container">
-        <!-- Logo -->
         <div class="Logo-container">
             <img src="images/Logo.png" alt="Logo" class="Logo" width="100" height="auto" />
-<!-- Banner -->
-             <img src="images/Health_Center_Email_Header.png" alt="Health Connect Clinic Banner" />
+            <img src="images/Health_Center_Email_Header.png" alt="Health Connect Clinic Banner" />
             <h2 id="welcomeMessage"></h2>
         </div>
     </div>
     <h1>Patient Registration Form</h1>
 </header>
 
-
-<!-- Main Content -->
 <div class="main-content">
 
-    <!-- Iframe Container -->
-    <div class="iframe-container">
-        <iframe src="https://www.cdc.gov" title="CDC Website" width="100%" height="500"></iframe>
+    <!-- FAQ - Enhancement (Collapsible help info) -->
+    <div class="faq-section">
+        <button class="accordion">Need Help?</button>
+        <div class="panel">
+            <p>Welcome to the Health Connect Clinic's patient registration form. Fill out all required fields. If you've visited before, we can restore your previous data from local storage.</p>
+            <p>Check the 'Remember Me' box to save your details. When returning, we will ask if you want to continue where you left off.</p>
+            <p>Use the 'Review' button to see your entries before submitting.</p>
+        </div>
     </div>
 
+    <!-- Modal for Local Storage Restore Confirmation -->
+    <div id="restoreModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeRestoreModal">&times;</span>
+            <p>We found your previous data. Would you like to restore your information?</p>
+            <button id="restoreYes">Yes, Restore My Data</button>
+            <button id="restoreNo">No, Start Fresh</button>
+        </div>
+    </div>
+
+    <!-- Not You Section -->
     <div id="notYou" style="display: none;">
         Not <span id="userName"></span>? 
         <button type="button" onclick="startAsNewUser()">Click here to start as a new user.</button>
     </div>
 
-    <!-- Form -->
+    <!-- Progress bar enhancement -->
+    <div class="progress-container">
+        <p>Form Completion Progress:</p>
+        <div class="progress-bar-background">
+            <div class="progress-bar-fill" id="progressBar"></div>
+        </div>
+    </div>
+
     <form id="registrationForm">
         <table>
-            <!-- Name and Date of Birth Fields -->
+            <!-- Name and DOB -->
             <tr>
                 <td><label for="firstName">First Name:</label></td>
                 <td>
-                    <input 
-                        type="text" 
-                        id="firstName" 
-                        name="firstName" 
-                        maxlength="30"
-                        title="Enter your first name (up to 30 characters). Letters, apostrophes, and dashes only." 
-                        onblur="validateFirstName()"
-                    >
+                    <div class="input-with-icon">
+                        <span class="icon">👤</span>
+                        <input type="text" id="firstName" name="firstName" maxlength="30" 
+                            title="Enter your first name. Letters, apostrophes, and dashes only." 
+                            onblur="validateFirstName()">
+                    </div>
                     <span id="firstNameError" class="error-message"></span>
                 </td>
                 <td><label for="middleInitial">Middle Initial:</label></td>
                 <td>
-                    <input 
-                        type="text" 
-                        id="middleInitial" 
-                        name="middleInitial" 
-                        maxlength="1"
-                        title="Enter your middle initial (optional)." 
-                        onblur="validateMiddleInitial()"
-                    >
+                    <div class="input-with-icon">
+                        <span class="icon">👤</span>
+                        <input type="text" id="middleInitial" name="middleInitial" maxlength="1" 
+                            title="Enter your middle initial (optional)." 
+                            onblur="validateMiddleInitial()">
+                    </div>
                     <span id="middleInitialError" class="error-message"></span>
                 </td>
                 <td><label for="lastName">Last Name:</label></td>
                 <td>
-                    <input 
-                        type="text" 
-                        id="lastName" 
-                        name="lastName" 
-                        maxlength="30"
-                        title="Enter your last name (up to 30 characters). Letters, apostrophes, and dashes only." 
-                        onblur="validateLastName()"
-                    >
+                    <div class="input-with-icon">
+                        <span class="icon">👤</span>
+                        <input type="text" id="lastName" name="lastName" maxlength="30" 
+                            title="Enter your last name. Letters, apostrophes, and dashes only." 
+                            onblur="validateLastName()">
+                    </div>
                     <span id="lastNameError" class="error-message"></span>
                 </td>
             </tr>
 
-            <!-- Date of Birth -->
             <tr>
                 <td><label for="dob">Date of Birth:</label></td>
                 <td>
-                    <input 
-                        type="date" 
-                        id="dob" 
-                        name="dob"
-                        title="Enter your date of birth. Must not be in the future and should be less than 120 years ago." 
-                        onblur="validateDOB()"
-                    >
+                    <div class="input-with-icon">
+                        <span class="icon">🎂</span>
+                        <input type="date" id="dob" name="dob"
+                            title="Enter your date of birth." onblur="validateDOB()">
+                    </div>
                     <span id="dobError" class="error-message"></span>
                 </td>
             </tr>
@@ -109,82 +119,68 @@ It includes various input fields, checkboxes, radio buttons, and a health status
             <tr>
                 <td><label for="ssn">Social Security Number:</label></td>
                 <td>
-                    <input 
-                        type="text" 
-                        id="ssn" 
-                        name="ssn" 
-                        maxlength="11"
-                        title="Enter your Social Security Number in the format: 123-45-6789." 
-                        oninput="formatSSN()" 
-                        onblur="validateSSN()"
-                    >
+                    <div class="input-with-icon">
+                        <span class="icon">🔒</span>
+                        <input type="text" id="ssn" name="ssn" maxlength="11" 
+                            title="Format: 123-45-6789" 
+                            oninput="formatSSN()" onblur="validateSSN()">
+                    </div>
                     <span id="ssnError" class="error-message"></span>
                 </td>
             </tr>
 
-            <!-- Address Fields -->
+            <!-- Address -->
             <tr>
                 <td><label for="address1">Address Line 1:</label></td>
                 <td colspan="5">
-                    <input 
-                        type="text" 
-                        id="address1" 
-                        name="address1" 
-                        maxlength="30"
-                        title="Enter your street address (2-30 characters)." 
-                        onblur="validateAddress1()"
-                    >
+                    <div class="input-with-icon">
+                        <span class="icon">🏠</span>
+                        <input type="text" id="address1" name="address1" maxlength="30" 
+                            title="2-30 characters." onblur="validateAddress1()">
+                    </div>
                     <span id="address1Error" class="error-message"></span>
                 </td>
             </tr>
-
             <tr>
                 <td><label for="address2">Address Line 2:</label></td>
                 <td colspan="5">
-                    <input 
-                        type="text" 
-                        id="address2" 
-                        name="address2" 
-                        maxlength="30"
-                        title="Enter additional address information (optional, 2-30 characters)." 
-                        onblur="validateAddress2()"
-                    >
+                    <div class="input-with-icon">
+                        <span class="icon">🏠</span>
+                        <input type="text" id="address2" name="address2" maxlength="30" 
+                            onblur="validateAddress2()">
+                    </div>
                     <span id="address2Error" class="error-message"></span>
                 </td>
             </tr>
 
-            <!-- City, State, Zip -->
             <tr>
                 <td><label for="city">City:</label></td>
                 <td>
-                    <input 
-                        type="text" 
-                        id="city" 
-                        name="city" 
-                        maxlength="30"
-                        title="Enter your city (2-30 characters)." 
-                        onblur="validateCity()"
-                    >
+                    <div class="input-with-icon">
+                        <span class="icon">🏙</span>
+                        <input type="text" id="city" name="city" maxlength="30" 
+                            onblur="validateCity()">
+                    </div>
                     <span id="cityError" class="error-message"></span>
                 </td>
                 <td><label for="state">State:</label></td>
                 <td>
                     <select id="state" name="state" onblur="validateState()">
                         <option value="" disabled selected>Select State</option>
-                        <!-- Add state options here -->
+                        <option value="TX">Texas</option>
+                        <option value="CA">California</option>
+                        <option value="NY">New York</option>
+                        <!-- Add more states as needed -->
                     </select>
                     <span id="stateError" class="error-message"></span>
                 </td>
                 <td><label for="zip">Zip Code:</label></td>
                 <td>
-                    <input 
-                        type="text" 
-                        id="zip" 
-                        name="zip" 
-                        maxlength="5"
-                        title="Enter your 5-digit zip code." 
-                        onblur="validateZip()"
-                    >
+                    <div class="input-with-icon">
+                        <span class="icon">📮</span>
+                        <input type="text" id="zip" name="zip" maxlength="5" 
+                            onblur="validateZip()">
+                    </div>
                     <span id="zipError" class="error-message"></span>
                 </td>
             </tr>
@@ -193,180 +189,162 @@ It includes various input fields, checkboxes, radio buttons, and a health status
             <tr>
                 <td><label for="email">Email:</label></td>
                 <td colspan="5">
-                    <input 
-                        type="email" 
-                        id="email" 
-                        name="email" 
-                        maxlength="300" 
-                        placeholder="name@domain.tld"
-                        title="Enter a valid email address." 
-                        onblur="validateEmail()"
-                    >
+                    <div class="input-with-icon">
+                        <span class="icon">📧</span>
+                        <input type="email" id="email" name="email" maxlength="300" 
+                            placeholder="name@domain.tld" onblur="validateEmail()">
+                    </div>
                     <span id="emailError" class="error-message"></span>
                 </td>
             </tr>
 
-            <!-- Phone Number -->
+            <!-- Phone -->
             <tr>
                 <td><label for="phone">Phone Number:</label></td>
                 <td>
-                    <input 
-                        type="tel" 
-                        id="phone" 
-                        name="phone" 
-                        maxlength="12"
-                        title="Enter your phone number in the format: 000-000-0000" 
-                        onblur="validatePhone()"
-                    >
+                    <div class="input-with-icon">
+                        <span class="icon">📞</span>
+                        <input type="tel" id="phone" name="phone" maxlength="12" 
+                            title="Format: 000-000-0000" onblur="validatePhone()">
+                    </div>
                     <span id="phoneError" class="error-message"></span>
                 </td>
             </tr>
 
-            <!-- Text Area for Symptoms -->
+            <!-- Symptoms Textarea -->
             <tr>
                 <td><label for="symptoms">Describe your current symptoms:</label></td>
                 <td colspan="5">
-                    <textarea 
-                        id="symptoms" 
-                        name="symptoms" 
-                        rows="3" 
-                        cols="50"
-                        title="Describe your symptoms (optional)."
-                    ></textarea>
+                    <textarea id="symptoms" name="symptoms" rows="3" cols="50"></textarea>
                 </td>
             </tr>
 
-            <!-- Checkboxes -->
+            <!-- Conditions Checkboxes -->
             <tr>
                 <td colspan="6">
-                    <p>Check all of the following that apply:</p>
-                    <input type="checkbox" name="conditions" value="Chicken Pox"> Chicken Pox<br>
-                    <input type="checkbox" name="conditions" value="Measles"> Measles<br>
-                    <input type="checkbox" name="conditions" value="Covid-19"> Covid-19<br>
-                    <input type="checkbox" name="conditions" value="Smallpox"> Smallpox<br>
-                    <input type="checkbox" name="conditions" value="Tetanus"> Tetanus
+                    <p>Check all that apply:</p>
+                    <label><input type="checkbox" name="conditions" value="Chicken Pox"> Chicken Pox</label><br>
+                    <label><input type="checkbox" name="conditions" value="Measles"> Measles</label><br>
+                    <label><input type="checkbox" name="conditions" value="Covid-19"> Covid-19</label><br>
+                    <label><input type="checkbox" name="conditions" value="Smallpox"> Smallpox</label><br>
+                    <label><input type="checkbox" name="conditions" value="Tetanus"> Tetanus</label>
                 </td>
             </tr>
 
-            <!-- Radio Buttons -->
+            <!-- Vaccination Radio -->
             <tr>
                 <td colspan="6">
                     <p>Have you been vaccinated?</p>
-                    <input type="radio" name="vaccinated" value="Yes"> Yes
-                    <input type="radio" name="vaccinated" value="No"> No
-                    <input type="radio" name="vaccinated" value="Unsure"> Unsure
+                    <label><input type="radio" name="vaccinated" value="Yes"> Yes</label>
+                    <label><input type="radio" name="vaccinated" value="No"> No</label>
+                    <label><input type="radio" name="vaccinated" value="Unsure"> Unsure</label>
                 </td>
             </tr>
 
-            <!-- Slider -->
+            <!-- Health Slider -->
             <tr>
                 <td colspan="6">
-                    <label for="health">On a scale of 1 to 10, 10 being feeling good, how is your health?</label>
+                    <label for="health">On a scale of 1 to 10, how good do you feel?</label>
                     <div style="position: relative; display: inline-block;">
-                        <input 
-                            type="range" 
-                            id="health" 
-                            name="health" 
-                            min="1" 
-                            max="10" 
-                            value="5" 
-                            oninput="updateValue(this.value)"
-                        >
-                        <span 
-                            id="sliderValue" 
-                            style="position: absolute; top: -25px; left: 50%; transform: translateX(-50%); font-weight: bold;"
+                        <input type="range" id="health" name="health" min="1" max="10" value="5" 
+                            oninput="updateValue(this.value)">
+                        <span id="sliderValue" 
+                              style="position: absolute; top: -25px; left: 50%; transform: translateX(-50%); font-weight: bold;"
                         >5</span>
                     </div>
                 </td>
             </tr>
 
-            <!-- User ID and Password -->
+            <!-- User ID -->
             <tr>
                 <td><label for="userId">Desired User ID:</label></td>
                 <td colspan="5">
-                    <input 
-                        type="text" 
-                        id="userId" 
-                        name="userId" 
-                        maxlength="20"
-                        title="Enter your desired User ID (5-20 characters, letters, numbers, dash, underscore, cannot start with a number)." 
-                        onblur="validateUserId()"
-                    >
+                    <div class="input-with-icon">
+                        <span class="icon">👤</span>
+                        <input type="text" id="userId" name="userId" maxlength="20" 
+                            onblur="validateUserId()">
+                    </div>
                     <span id="userIdError" class="error-message"></span>
                 </td>
             </tr>
 
+            <!-- Password Fields (Caps Lock Warning Enhancement) -->
             <tr>
                 <td><label for="password">Password:</label></td>
                 <td>
-                    <input 
-                        type="password" 
-                        id="password" 
-                        name="password" 
-                        maxlength="30"
-                        title="Password must be at least 8 characters long, include uppercase, lowercase, and a number, and not equal to User ID." 
-                        onblur="validatePassword()"
-                    >
+                    <div class="input-with-icon">
+                        <span class="icon">🔑</span>
+                        <input type="password" id="password" name="password" maxlength="30" 
+                            onblur="validatePassword()" onkeyup="checkCapsLock(event)">
+                    </div>
                     <span id="passwordError" class="error-message"></span>
+                    <span id="capsLockWarning" class="error-message" style="display:none;">Caps Lock is on!</span>
                 </td>
                 <td><label for="confirmPassword">Re-enter Password:</label></td>
                 <td>
-                    <input 
-                        type="password" 
-                        id="confirmPassword" 
-                        name="confirmPassword" 
-                        maxlength="30"
-                        title="Re-enter your password to confirm." 
-                        onblur="validateConfirmPassword()"
-                    >
+                    <div class="input-with-icon">
+                        <span class="icon">🔑</span>
+                        <input type="password" id="confirmPassword" name="confirmPassword" maxlength="30" 
+                            onblur="validateConfirmPassword()">
+                    </div>
                     <span id="confirmPasswordError" class="error-message"></span>
                 </td>
             </tr>
 
             <!-- Buttons -->
             <tr>
-                <td colspan="6" style="text-align: center;">
-                    <button type="reset">CLEAR AND START OVER</button>
-                    <button type="button" onclick="reviewForm()">Review</button>
+                <td colspan="6" style="text-align:center;">
+                    <label>
+                        <input type="checkbox" id="rememberMe" name="rememberMe" checked> Remember Me
+                    </label>
+                    <br><br>
+                    <button type="reset" onclick="clearLocalData()">CLEAR AND START OVER</button>
+                    <!-- REVIEW button triggers a modal-like overlay with read-only info -->
+                    <button type="button" onclick="showReview()">Review</button>
                     <button type="button" id="validateButton" onclick="validateForm()">Validate</button>
-                    <button 
-                        type="submit" 
-                        id="submitButton" 
-                        style="display: none;" 
-                        onclick="submitForm()"
-                    >
-                        Submit
-                    </button>
+                    <button type="submit" id="submitButton" style="display:none;" onclick="submitForm(event)">Submit</button>
                 </td>
             </tr>
         </table>
     </form>
 
-    <!-- Remember Me -->
-    <label>
-        <input type="checkbox" id="rememberMe" name="rememberMe" checked> Remember Me
-    </label>
+    <!-- iFrame Section from original requirements -->
+    <div class="iframe-container">
+        <iframe src="https://www.cdc.gov" title="CDC Website" width="100%" height="500"></iframe>
+    </div>
 
-    <!-- Review Section -->
-    <div id="reviewSection" style="margin-top: 20px;"></div>
+    <!-- Review Overlay (Part 2) -->
+    <div id="reviewOverlay" class="overlay">
+        <div class="overlay-content" id="reviewContent">
+            <!-- Dynamic Content Inserted by JS -->
+        </div>
+    </div>
 </div>
 
-<!-- Footer -->
 <footer>
     <button onclick="window.location.href='contact.html'">Contact Us</button>
     <div class="social-media">
-<a href="https://www.facebook.com" target="_blank">
-    <img src="images/facebook-icon.png" alt="Facebook" width="30">
-</a>
-<a href="https://www.twitter.com" target="_blank">
-    <img src="images/twitter-icon.png" alt="Twitter" width="30">
-</a>
+        <a href="https://www.facebook.com" target="_blank">
+            <img src="images/facebook-icon.png" alt="Facebook" width="30">
+        </a>
+        <a href="https://www.twitter.com" target="_blank">
+            <img src="images/twitter-icon.png" alt="Twitter" width="30">
+        </a>
     </div>
     <p>PO BOX 18881, Sugar Land, TX 77496</p>
     <p id="date"></p>
+    <!-- Dark/Light Mode Toggle (Enhancement) -->
+    <button type="button" id="themeToggle">Toggle Light/Dark Mode</button>
 </footer>
 
-<script src="formValidations.js"></script>
-
+<script src="extracredit.js"></script>
+<script>
+    // reCAPTCHA v3 token request
+    grecaptcha.ready(function() {
+        grecaptcha.execute('YOUR_RECAPTCHA_SITE_KEY', {action: 'submit'}).then(function(token) {
+            document.getElementById('registrationForm').insertAdjacentHTML('beforeend', '<input type="hidden" name="g-recaptcha-response" value="'+token+'">');
+        });
+    });
+</script>
 </body>
 </html>
