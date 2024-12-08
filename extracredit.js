@@ -69,4 +69,11 @@ function validateLastName() {
     if (!lastName) {
         showError("lastNameError", "Last name is required.");
         return false;
-    } else if (!regex.test(l
+    } else if (!regex.test(lastName)) {
+        showError("lastNameError", "Last name can only contain letters, apostrophes, and dashes.");
+        return false;
+    } else {
+        clearError("lastNameError");
+        return true;
+    }
+}
