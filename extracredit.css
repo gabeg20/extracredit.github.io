@@ -1,28 +1,62 @@
 /*
-    Program name: style.css
-    Author: Gabriel Garcia
-    Date created: 9/18
-    Date last edited: 11/30
-    Version: 5.0
-    Description: Styles for Patient Registration Form for Health Connect Clinic.
+    extracredit.css
+    Enhancements:
+    - Responsive design using media queries
+    - Icons and improved UI elements
+    - Progress bar styling
+    - Accordion styling for FAQ
 */
 
 /* Global Styles */
 * {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
 
 body {
     font-family: 'Arial', sans-serif;
     color: #333;
     background-color: #f0f8ff;
-    padding-top: 220px;    /* Equal to header height */
-    padding-bottom: 120px; /* Equal to footer height */
+    padding-top: 220px;    /* space for header */
+    padding-bottom: 120px; /* space for footer */
+    transition: background-color 0.3s, color 0.3s;
 }
 
-/* Table Styles */
+.dark-mode {
+    background-color: #333;
+    color: #eee;
+}
+
+header, footer {
+    position: fixed;
+    width: 100%;
+    left: 0;
+    z-index: 10;
+    background: #fff;
+    border-bottom: 2px solid #ccc;
+    text-align: center;
+    padding: 10px;
+}
+
+footer {
+    bottom: 0;
+    border-top: 2px solid #ccc;
+    border-bottom: none;
+}
+
+.banner-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.main-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -77,9 +111,124 @@ button:hover {
     font-size: 0.9em;
 }
 
-
-.logo {
-    max-width: 20%;
-    height: auto;
+/* Icons in inputs */
+.input-with-icon {
+    position: relative;
 }
 
+.input-with-icon .icon {
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.input-with-icon input {
+    padding-left: 30px;
+}
+
+/* Iframe container */
+.iframe-container {
+    margin-top: 20px;
+}
+
+/* Modal for restore confirmation */
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1001; 
+    left: 0; top: 0;
+    width: 100%; height: 100%; 
+    background-color: rgba(0,0,0,0.4);
+}
+.modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    width: 300px;
+    border-radius: 4px;
+    position: relative;
+}
+.close {
+    position: absolute; top: 10px; right: 15px; 
+    color: #aaa; 
+    font-size: 20px; 
+    cursor: pointer;
+}
+.close:hover { color: #000; }
+
+/* Overlay for review */
+.overlay {
+    display: none; 
+    position: fixed; 
+    z-index: 1002; 
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.8);
+    overflow: auto;
+}
+.overlay-content {
+    background-color: #fff;
+    margin: 5% auto;
+    padding: 20px;
+    width: 80%;
+    max-width: 800px;
+    border-radius: 4px;
+}
+
+/* Progress Bar */
+.progress-container {
+    margin: 10px 0;
+}
+.progress-bar-background {
+    width: 100%;
+    background: #ccc;
+    height: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+.progress-bar-fill {
+    height: 10px;
+    background: #2980b9;
+    width: 0%;
+    transition: width 0.3s;
+}
+
+/* FAQ (Accordion) */
+.accordion {
+    background-color: #eee;
+    cursor: pointer;
+    padding: 14px;
+    width: 100%;
+    text-align: left;
+    border: none;
+    outline: none;
+    transition: background-color 0.4s;
+    margin-bottom: 5px;
+}
+
+.active, .accordion:hover {
+    background-color: #ccc;
+}
+
+.panel {
+    padding: 0 14px;
+    display: none;
+    background-color: #f9f9f9;
+    overflow: hidden;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    td {
+        display: block;
+        width: 100%;
+    }
+    table {
+        border: 0;
+    }
+    label {
+        margin-top: 10px;
+    }
+}
