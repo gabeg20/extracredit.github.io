@@ -1,0 +1,370 @@
+<!--
+Author: Gabriel Garcia
+Date created: 9/18
+Program name: patient-form
+Date last edited: 11/30
+Version: 5.0
+Description: Patient Registration Form for Health Connect Clinic, designed to collect patient 
+information such as name, date of birth, address, symptoms, and insurance details. 
+It includes various input fields, checkboxes, radio buttons, and a health status slider.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Registration Form</title>
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- Header -->
+<header>
+    <div class="banner-container">
+        <img src="../../Health_Center_Email_Header.png" alt="Health Connect Clinic Banner">
+        <div class="logo-container">
+            <img src="../../Logo.png" alt="Logo" class="logo">
+            <!-- Place this in your header or appropriate location -->
+            <h2 id="welcomeMessage"></h2>
+        </div>
+    </div>
+    <h1>Patient Registration Form</h1>
+</header>
+
+<!-- Main Content -->
+<div class="main-content">
+
+    <!-- Iframe Container -->
+    <div class="iframe-container">
+        <iframe src="https://www.cdc.gov" title="CDC Website" width="100%" height="500"></iframe>
+    </div>
+
+    <div id="notYou" style="display: none;">
+        Not <span id="userName"></span>? 
+        <button type="button" onclick="startAsNewUser()">Click here to start as a new user.</button>
+    </div>
+
+    <!-- Form -->
+    <form id="registrationForm">
+        <table>
+            <!-- Name and Date of Birth Fields -->
+            <tr>
+                <td><label for="firstName">First Name:</label></td>
+                <td>
+                    <input 
+                        type="text" 
+                        id="firstName" 
+                        name="firstName" 
+                        maxlength="30"
+                        title="Enter your first name (up to 30 characters). Letters, apostrophes, and dashes only." 
+                        onblur="validateFirstName()"
+                    >
+                    <span id="firstNameError" class="error-message"></span>
+                </td>
+                <td><label for="middleInitial">Middle Initial:</label></td>
+                <td>
+                    <input 
+                        type="text" 
+                        id="middleInitial" 
+                        name="middleInitial" 
+                        maxlength="1"
+                        title="Enter your middle initial (optional)." 
+                        onblur="validateMiddleInitial()"
+                    >
+                    <span id="middleInitialError" class="error-message"></span>
+                </td>
+                <td><label for="lastName">Last Name:</label></td>
+                <td>
+                    <input 
+                        type="text" 
+                        id="lastName" 
+                        name="lastName" 
+                        maxlength="30"
+                        title="Enter your last name (up to 30 characters). Letters, apostrophes, and dashes only." 
+                        onblur="validateLastName()"
+                    >
+                    <span id="lastNameError" class="error-message"></span>
+                </td>
+            </tr>
+
+            <!-- Date of Birth -->
+            <tr>
+                <td><label for="dob">Date of Birth:</label></td>
+                <td>
+                    <input 
+                        type="date" 
+                        id="dob" 
+                        name="dob"
+                        title="Enter your date of birth. Must not be in the future and should be less than 120 years ago." 
+                        onblur="validateDOB()"
+                    >
+                    <span id="dobError" class="error-message"></span>
+                </td>
+            </tr>
+
+            <!-- Social Security -->
+            <tr>
+                <td><label for="ssn">Social Security Number:</label></td>
+                <td>
+                    <input 
+                        type="text" 
+                        id="ssn" 
+                        name="ssn" 
+                        maxlength="11"
+                        title="Enter your Social Security Number in the format: 123-45-6789." 
+                        oninput="formatSSN()" 
+                        onblur="validateSSN()"
+                    >
+                    <span id="ssnError" class="error-message"></span>
+                </td>
+            </tr>
+
+            <!-- Address Fields -->
+            <tr>
+                <td><label for="address1">Address Line 1:</label></td>
+                <td colspan="5">
+                    <input 
+                        type="text" 
+                        id="address1" 
+                        name="address1" 
+                        maxlength="30"
+                        title="Enter your street address (2-30 characters)." 
+                        onblur="validateAddress1()"
+                    >
+                    <span id="address1Error" class="error-message"></span>
+                </td>
+            </tr>
+
+            <tr>
+                <td><label for="address2">Address Line 2:</label></td>
+                <td colspan="5">
+                    <input 
+                        type="text" 
+                        id="address2" 
+                        name="address2" 
+                        maxlength="30"
+                        title="Enter additional address information (optional, 2-30 characters)." 
+                        onblur="validateAddress2()"
+                    >
+                    <span id="address2Error" class="error-message"></span>
+                </td>
+            </tr>
+
+            <!-- City, State, Zip -->
+            <tr>
+                <td><label for="city">City:</label></td>
+                <td>
+                    <input 
+                        type="text" 
+                        id="city" 
+                        name="city" 
+                        maxlength="30"
+                        title="Enter your city (2-30 characters)." 
+                        onblur="validateCity()"
+                    >
+                    <span id="cityError" class="error-message"></span>
+                </td>
+                <td><label for="state">State:</label></td>
+                <td>
+                    <select id="state" name="state" onblur="validateState()">
+                        <option value="" disabled selected>Select State</option>
+                        <!-- Add state options here -->
+                    </select>
+                    <span id="stateError" class="error-message"></span>
+                </td>
+                <td><label for="zip">Zip Code:</label></td>
+                <td>
+                    <input 
+                        type="text" 
+                        id="zip" 
+                        name="zip" 
+                        maxlength="5"
+                        title="Enter your 5-digit zip code." 
+                        onblur="validateZip()"
+                    >
+                    <span id="zipError" class="error-message"></span>
+                </td>
+            </tr>
+
+            <!-- Email -->
+            <tr>
+                <td><label for="email">Email:</label></td>
+                <td colspan="5">
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        maxlength="300" 
+                        placeholder="name@domain.tld"
+                        title="Enter a valid email address." 
+                        onblur="validateEmail()"
+                    >
+                    <span id="emailError" class="error-message"></span>
+                </td>
+            </tr>
+
+            <!-- Phone Number -->
+            <tr>
+                <td><label for="phone">Phone Number:</label></td>
+                <td>
+                    <input 
+                        type="tel" 
+                        id="phone" 
+                        name="phone" 
+                        maxlength="12"
+                        title="Enter your phone number in the format: 000-000-0000" 
+                        onblur="validatePhone()"
+                    >
+                    <span id="phoneError" class="error-message"></span>
+                </td>
+            </tr>
+
+            <!-- Text Area for Symptoms -->
+            <tr>
+                <td><label for="symptoms">Describe your current symptoms:</label></td>
+                <td colspan="5">
+                    <textarea 
+                        id="symptoms" 
+                        name="symptoms" 
+                        rows="3" 
+                        cols="50"
+                        title="Describe your symptoms (optional)."
+                    ></textarea>
+                </td>
+            </tr>
+
+            <!-- Checkboxes -->
+            <tr>
+                <td colspan="6">
+                    <p>Check all of the following that apply:</p>
+                    <input type="checkbox" name="conditions" value="Chicken Pox"> Chicken Pox<br>
+                    <input type="checkbox" name="conditions" value="Measles"> Measles<br>
+                    <input type="checkbox" name="conditions" value="Covid-19"> Covid-19<br>
+                    <input type="checkbox" name="conditions" value="Smallpox"> Smallpox<br>
+                    <input type="checkbox" name="conditions" value="Tetanus"> Tetanus
+                </td>
+            </tr>
+
+            <!-- Radio Buttons -->
+            <tr>
+                <td colspan="6">
+                    <p>Have you been vaccinated?</p>
+                    <input type="radio" name="vaccinated" value="Yes"> Yes
+                    <input type="radio" name="vaccinated" value="No"> No
+                    <input type="radio" name="vaccinated" value="Unsure"> Unsure
+                </td>
+            </tr>
+
+            <!-- Slider -->
+            <tr>
+                <td colspan="6">
+                    <label for="health">On a scale of 1 to 10, 10 being feeling good, how is your health?</label>
+                    <div style="position: relative; display: inline-block;">
+                        <input 
+                            type="range" 
+                            id="health" 
+                            name="health" 
+                            min="1" 
+                            max="10" 
+                            value="5" 
+                            oninput="updateValue(this.value)"
+                        >
+                        <span 
+                            id="sliderValue" 
+                            style="position: absolute; top: -25px; left: 50%; transform: translateX(-50%); font-weight: bold;"
+                        >5</span>
+                    </div>
+                </td>
+            </tr>
+
+            <!-- User ID and Password -->
+            <tr>
+                <td><label for="userId">Desired User ID:</label></td>
+                <td colspan="5">
+                    <input 
+                        type="text" 
+                        id="userId" 
+                        name="userId" 
+                        maxlength="20"
+                        title="Enter your desired User ID (5-20 characters, letters, numbers, dash, underscore, cannot start with a number)." 
+                        onblur="validateUserId()"
+                    >
+                    <span id="userIdError" class="error-message"></span>
+                </td>
+            </tr>
+
+            <tr>
+                <td><label for="password">Password:</label></td>
+                <td>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        maxlength="30"
+                        title="Password must be at least 8 characters long, include uppercase, lowercase, and a number, and not equal to User ID." 
+                        onblur="validatePassword()"
+                    >
+                    <span id="passwordError" class="error-message"></span>
+                </td>
+                <td><label for="confirmPassword">Re-enter Password:</label></td>
+                <td>
+                    <input 
+                        type="password" 
+                        id="confirmPassword" 
+                        name="confirmPassword" 
+                        maxlength="30"
+                        title="Re-enter your password to confirm." 
+                        onblur="validateConfirmPassword()"
+                    >
+                    <span id="confirmPasswordError" class="error-message"></span>
+                </td>
+            </tr>
+
+            <!-- Buttons -->
+            <tr>
+                <td colspan="6" style="text-align: center;">
+                    <button type="reset">CLEAR AND START OVER</button>
+                    <button type="button" onclick="reviewForm()">Review</button>
+                    <button type="button" id="validateButton" onclick="validateForm()">Validate</button>
+                    <button 
+                        type="submit" 
+                        id="submitButton" 
+                        style="display: none;" 
+                        onclick="submitForm()"
+                    >
+                        Submit
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <!-- Remember Me -->
+    <label>
+        <input type="checkbox" id="rememberMe" name="rememberMe" checked> Remember Me
+    </label>
+
+    <!-- Review Section -->
+    <div id="reviewSection" style="margin-top: 20px;"></div>
+</div>
+
+<!-- Footer -->
+<footer>
+    <button onclick="window.location.href='contact.html'">Contact Us</button>
+    <div class="social-media">
+        <a href="https://www.facebook.com" target="_blank">
+            <img src="../../facebook-icon.png" alt="Facebook" width="30">
+        </a>
+        <a href="https://www.twitter.com" target="_blank">
+            <img src="../../twitter-icon.png" alt="Twitter" width="30">
+        </a>
+    </div>
+    <p>PO BOX 18881, Sugar Land, TX 77496</p>
+    <p id="date"></p>
+</footer>
+
+<script src="formValidations.js"></script>
+
+</body>
+</html>
